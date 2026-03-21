@@ -23,7 +23,7 @@
         <!-- Si SÍ está autenticado -->
         <template v-else>
           <RouterLink to="/dashboard" class="nav-link">Dashboard</RouterLink>
-          <span class="nav-user">{{ user?.name }}</span>
+          <span class="nav-user">{{ user?.user_metadata?.full_name }}</span>
           <button class="nav-link nav-link--logout" @click="handleLogout">
             Cerrar sesión
           </button>
@@ -43,21 +43,23 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView, useRouter } from 'vue-router'
-import { useAuth } from '@/composables/useAuth'
+import { RouterLink, RouterView, useRouter } from "vue-router";
+import { useAuth } from "@/composables/useAuth";
 
-const router = useRouter()
-const { isAuthenticated, user, logout } = useAuth()
+const router = useRouter();
+const { isAuthenticated, user, logout } = useAuth();
 
 async function handleLogout() {
-  logout()
-  await router.push('/login')
+  logout();
+  await router.push("/login");
 }
 </script>
 
 <style>
 /* Reset global */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -66,7 +68,7 @@ async function handleLogout() {
 body {
   background: #0d0d0f;
   color: #e8e4dc;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 </style>
 

@@ -1,7 +1,6 @@
 <!-- src/views/HomeView.vue -->
 <template>
   <div class="home">
-
     <!-- HERO -->
     <section class="hero">
       <div class="hero-bg" aria-hidden="true">
@@ -17,7 +16,7 @@
         </div>
 
         <h1 class="hero-title">
-          Aprende <em>autenticación</em><br/>
+          Aprende <em>autenticación</em><br />
           con Vue Router
         </h1>
 
@@ -27,20 +26,25 @@
         </p>
 
         <div class="hero-actions">
-          <RouterLink v-if="!isAuthenticated" to="/login" class="btn btn--primary">
+          <RouterLink
+            v-if="!isAuthenticated"
+            to="/login"
+            class="btn btn--primary"
+          >
             Iniciar sesión →
           </RouterLink>
           <RouterLink v-else to="/dashboard" class="btn btn--primary">
             Ir al Dashboard →
           </RouterLink>
 
+          <a
             href="https://router.vuejs.org"
             target="_blank"
             rel="noopener"
             class="btn btn--ghost"
           >
             Ver documentación ↗
-
+          </a>
         </div>
       </div>
 
@@ -49,7 +53,9 @@
           <div class="code-card__bar">
             <span></span><span></span><span></span>
           </div>
-          <pre class="code-card__body"><code><span class="t-comment">// Navigation Guard</span>
+          <pre
+            class="code-card__body"
+          ><code><span class="t-comment">// Navigation Guard</span>
 <span class="t-keyword">router</span>.<span class="t-fn">beforeEach</span>(<span class="t-param">(to, from)</span> => {
   <span class="t-keyword">const</span> { isAuthenticated }
     = <span class="t-fn">useAuth</span>()
@@ -84,11 +90,7 @@
       <p class="section-sub">Así viaja el usuario por la aplicación</p>
 
       <div class="flow">
-        <div
-          v-for="(step, i) in flowSteps"
-          :key="step.label"
-          class="flow-item"
-        >
+        <div v-for="(step, i) in flowSteps" :key="step.label" class="flow-item">
           <div class="flow-node" :class="`node--${step.color}`">
             <span>{{ step.icon }}</span>
           </div>
@@ -102,59 +104,62 @@
     <section class="cta-section">
       <h2 class="cta-title">¿Listo para practicar?</h2>
       <p class="cta-sub">
-        Inicia sesión con las credenciales de prueba y explora
-        la protección de rutas en acción.
+        Inicia sesión con las credenciales de prueba y explora la protección de
+        rutas en acción.
       </p>
-      <RouterLink v-if="!isAuthenticated" to="/login" class="btn btn--primary btn--lg">
+      <RouterLink
+        v-if="!isAuthenticated"
+        to="/login"
+        class="btn btn--primary btn--lg"
+      >
         Comenzar ahora →
       </RouterLink>
       <RouterLink v-else to="/dashboard" class="btn btn--primary btn--lg">
         Ver mi Dashboard →
       </RouterLink>
     </section>
-
   </div>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
-import { useAuth } from '@/composables/useAuth'
+import { RouterLink } from "vue-router";
+import { useAuth } from "@/composables/useAuth";
 
-const { isAuthenticated } = useAuth()
+const { isAuthenticated } = useAuth();
 
 const features = [
   {
-    icon: '🔐',
-    title: 'Login reactivo',
-    desc: 'Formulario con validación en tiempo real usando reactive() y computed().',
-    tag: 'LoginView.vue',
+    icon: "🔐",
+    title: "Login reactivo",
+    desc: "Formulario con validación en tiempo real usando reactive() y computed().",
+    tag: "LoginView.vue",
   },
   {
-    icon: '🛡️',
-    title: 'Rutas protegidas',
-    desc: 'Navigation guards con beforeEach bloquean el acceso sin autenticación.',
-    tag: 'router/index.js',
+    icon: "🛡️",
+    title: "Rutas protegidas",
+    desc: "Navigation guards con beforeEach bloquean el acceso sin autenticación.",
+    tag: "router/index.js",
   },
   {
-    icon: '⚡',
-    title: 'Estado global',
-    desc: 'useAuth() comparte el estado de sesión entre todos los componentes.',
-    tag: 'useAuth.js',
+    icon: "⚡",
+    title: "Estado global",
+    desc: "useAuth() comparte el estado de sesión entre todos los componentes.",
+    tag: "useAuth.js",
   },
   {
-    icon: '💾',
-    title: 'Persistencia',
-    desc: 'El token se guarda en localStorage para mantener la sesión activa.',
-    tag: 'composable',
+    icon: "💾",
+    title: "Persistencia",
+    desc: "El token se guarda en localStorage para mantener la sesión activa.",
+    tag: "composable",
   },
-]
+];
 
 const flowSteps = [
-  { icon: '🏠', label: 'Home',        color: 'gold'  },
-  { icon: '🔑', label: 'Login',       color: 'blue'  },
-  { icon: '✅', label: 'Autenticado', color: 'green' },
-  { icon: '📊', label: 'Dashboard',   color: 'gold'  },
-]
+  { icon: "🏠", label: "Home", color: "gold" },
+  { icon: "🔑", label: "Login", color: "blue" },
+  { icon: "✅", label: "Autenticado", color: "green" },
+  { icon: "📊", label: "Dashboard", color: "gold" },
+];
 </script>
 
 <style scoped>
@@ -178,8 +183,12 @@ const flowSteps = [
 }
 
 @media (max-width: 768px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-visual { display: none; }
+  .hero {
+    grid-template-columns: 1fr;
+  }
+  .hero-visual {
+    display: none;
+  }
 }
 
 /* Fondo decorativo */
@@ -198,22 +207,30 @@ const flowSteps = [
 }
 
 .orb--1 {
-  width: 400px; height: 400px;
+  width: 400px;
+  height: 400px;
   background: #c8a96e;
-  top: -100px; left: -100px;
+  top: -100px;
+  left: -100px;
   animation: drift 8s ease-in-out infinite alternate;
 }
 
 .orb--2 {
-  width: 300px; height: 300px;
+  width: 300px;
+  height: 300px;
   background: #6eb4e8;
-  bottom: -80px; right: 100px;
+  bottom: -80px;
+  right: 100px;
   animation: drift 10s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes drift {
-  from { transform: translate(0, 0); }
-  to   { transform: translate(30px, 20px); }
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(30px, 20px);
+  }
 }
 
 .hex-grid {
@@ -249,15 +266,21 @@ const flowSteps = [
 }
 
 .chip-dot {
-  width: 6px; height: 6px;
+  width: 6px;
+  height: 6px;
   background: #c8a96e;
   border-radius: 50%;
   animation: blink 2s ease-in-out infinite;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.3; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
 }
 
 .hero-title {
@@ -317,17 +340,20 @@ const flowSteps = [
 }
 
 .btn--ghost {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   color: #9a938c;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .btn--ghost:hover {
-  background: rgba(255,255,255,0.09);
+  background: rgba(255, 255, 255, 0.09);
   color: #e8e4dc;
 }
 
-.btn--lg { padding: 0.85rem 2rem; font-size: 1rem; }
+.btn--lg {
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+}
 
 /* Tarjeta de código */
 .hero-visual {
@@ -345,46 +371,64 @@ const flowSteps = [
   width: 100%;
   max-width: 380px;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.03),
-    0 24px 48px rgba(0,0,0,0.4);
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 24px 48px rgba(0, 0, 0, 0.4);
   animation: floatCard 6s ease-in-out infinite;
 }
 
 @keyframes floatCard {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .code-card__bar {
   display: flex;
   gap: 6px;
   padding: 0.7rem 1rem;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .code-card__bar span {
-  width: 10px; height: 10px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .code-card__body {
   padding: 1.25rem 1.4rem;
   margin: 0;
-  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-family: "Fira Code", "Cascadia Code", monospace;
   font-size: 0.78rem;
   line-height: 1.75;
   overflow-x: auto;
 }
 
 /* Syntax highlight manual */
-.t-comment { color: #4a4a5a; }
-.t-keyword  { color: #6eb4e8; }
-.t-fn       { color: #c8a96e; }
-.t-param    { color: #b08ce8; }
-.t-prop     { color: #e8c46e; }
-.t-string   { color: #6fcf97; }
+.t-comment {
+  color: #4a4a5a;
+}
+.t-keyword {
+  color: #6eb4e8;
+}
+.t-fn {
+  color: #c8a96e;
+}
+.t-param {
+  color: #b08ce8;
+}
+.t-prop {
+  color: #e8c46e;
+}
+.t-string {
+  color: #6fcf97;
+}
 
 /* ── FEATURES ── */
 .features {
@@ -396,13 +440,15 @@ const flowSteps = [
 .feat-card {
   padding: 1.5rem;
   background: rgba(22, 22, 26, 0.8);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 14px;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
   animation: slideUp 0.4s ease both;
-  transition: border-color 0.2s, transform 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
 }
 
 .feat-card:hover {
@@ -411,13 +457,32 @@ const flowSteps = [
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.feat-icon  { font-size: 1.75rem; }
-.feat-title { font-size: 1rem; font-weight: 700; color: #e8e4dc; margin: 0; }
-.feat-desc  { font-size: 0.85rem; color: #5a5550; line-height: 1.55; margin: 0; flex: 1; }
+.feat-icon {
+  font-size: 1.75rem;
+}
+.feat-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e8e4dc;
+  margin: 0;
+}
+.feat-desc {
+  font-size: 0.85rem;
+  color: #5a5550;
+  line-height: 1.55;
+  margin: 0;
+  flex: 1;
+}
 
 .feat-tag {
   font-size: 0.72rem;
@@ -468,7 +533,8 @@ const flowSteps = [
 }
 
 .flow-node {
-  width: 56px; height: 56px;
+  width: 56px;
+  height: 56px;
   border-radius: 14px;
   display: flex;
   align-items: center;
@@ -476,9 +542,18 @@ const flowSteps = [
   font-size: 1.4rem;
 }
 
-.node--gold  { background: rgba(200,169,110,0.12); border: 1px solid rgba(200,169,110,0.25); }
-.node--blue  { background: rgba(110,180,232,0.12); border: 1px solid rgba(110,180,232,0.25); }
-.node--green { background: rgba(111,207,151,0.12); border: 1px solid rgba(111,207,151,0.25); }
+.node--gold {
+  background: rgba(200, 169, 110, 0.12);
+  border: 1px solid rgba(200, 169, 110, 0.25);
+}
+.node--blue {
+  background: rgba(110, 180, 232, 0.12);
+  border: 1px solid rgba(110, 180, 232, 0.25);
+}
+.node--green {
+  background: rgba(111, 207, 151, 0.12);
+  border: 1px solid rgba(111, 207, 151, 0.25);
+}
 
 .flow-label {
   font-size: 0.75rem;
@@ -487,7 +562,9 @@ const flowSteps = [
   margin-top: 72px;
 }
 
-.flow-item { position: relative; }
+.flow-item {
+  position: relative;
+}
 
 .flow-arrow {
   color: #3a3530;

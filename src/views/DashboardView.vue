@@ -1,4 +1,5 @@
 <!-- src/views/DashboardView.vue -->
+<!-- src/views/DashboardView.vue -->
 <template>
   <div class="dashboard">
 
@@ -7,7 +8,7 @@
       <div class="welcome-text">
         <p class="welcome-label">Panel de control</p>
         <h1 class="welcome-title">
-          Hola, <span class="highlight">{{ user?.name }}</span> 👋
+          Hola, <span class="highlight">{{ displayName }}</span> 👋
         </h1>
         <p class="welcome-sub">{{ currentDate }} — Todo en orden por aquí.</p>
       </div>
@@ -69,15 +70,15 @@
         <div class="session-info">
           <div class="session-row">
             <span class="session-key">Usuario</span>
-            <span class="session-val">{{ user?.name }}</span>
+            <span class="session-val">{{ displayName }}</span>
           </div>
           <div class="session-row">
             <span class="session-key">Email</span>
             <span class="session-val">{{ user?.email }}</span>
           </div>
           <div class="session-row">
-            <span class="session-key">Token</span>
-            <span class="session-val token-val">{{ maskedToken }}</span>
+            <span class="session-key">ID</span>
+            <span class="session-val token-val">{{ user?.id?.slice(0, 8) }}...</span>
           </div>
           <div class="session-row">
             <span class="session-key">Estado</span>
@@ -102,7 +103,6 @@ import { useAuth } from '@/composables/useAuth'
 const router = useRouter()
 const { user, logout } = useAuth()
 
-// ── Fecha actual formateada ──
 const currentDate = computed(() =>
   new Date().toLocaleDateString('es-MX', {
     weekday: 'long',
@@ -112,13 +112,12 @@ const currentDate = computed(() =>
   })
 )
 
-// ── Token enmascarado ──
-const maskedToken = computed(() => {
-  const token = localStorage.getItem('auth_token') || ''
-  return token.slice(0, 10) + '••••••••••••'
-})
+const displayName = computed(() =>
+  user.value?.user_metadata?.full_name
+  ?? user.value?.email
+  ?? 'Usuario'
+)
 
-// ── Datos de estadísticas ──
 const stats = [
   { icon: '📦', label: 'Proyectos',   value: '12',  trend: +8  },
   { icon: '✅', label: 'Tareas',      value: '48',  trend: +15 },
@@ -126,7 +125,6 @@ const stats = [
   { icon: '📈', label: 'Rendimiento', value: '94%', trend: +3  },
 ]
 
-// ── Actividad reciente simulada ──
 const activity = [
   { type: 'success', msg: 'Inicio de sesión exitoso',        time: 'Justo ahora'   },
   { type: 'info',    msg: 'Perfil actualizado',              time: 'Hace 2 horas'  },
@@ -135,9 +133,8 @@ const activity = [
   { type: 'info',    msg: 'Reporte mensual generado',        time: 'Hace 3 días'   },
 ]
 
-// ── Logout ──
 async function handleLogout() {
-  logout()
+  await logout()
   await router.push('/login')
 }
 </script>
@@ -402,3 +399,5 @@ async function handleLogout() {
   transform: translateY(-1px);
 }
 </style>
+
+

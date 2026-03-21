@@ -1,28 +1,41 @@
-<!-- src/views/LoginView.vue -->
+<!-- <!-- src/views/RegisterView.vue -->
 <template>
   <div class="login-page">
-    <!-- Fondo decorativo -->
     <div class="bg-grid" aria-hidden="true"></div>
     <div class="bg-glow" aria-hidden="true"></div>
 
     <div class="login-card">
-      <!-- Encabezado -->
       <div class="card-header">
         <span class="card-icon">⬡</span>
-        <h1 class="card-title">Bienvenido</h1>
-        <p class="card-subtitle">Ingresa tus credenciales para continuar</p>
+        <h1 class="card-title">Crear cuenta</h1>
+        <p class="card-subtitle">Ingresa tus datos para registrarte</p>
       </div>
 
-      <!-- Alerta de error -->
       <Transition name="alert">
         <div v-if="errorMsg" class="alert-error" role="alert">
           <span>⚠</span> {{ errorMsg }}
         </div>
       </Transition>
 
-      <!-- Formulario -->
-      <form class="login-form" @submit.prevent="handleLogin" novalidate>
-        <!-- Campo email -->
+      <form class="login-form" @submit.prevent="handleRegister" novalidate>
+        <div class="field" :class="{ 'field--error': errors.fullName }">
+          <label for="fullName" class="field-label">Nombre completo</label>
+          <div class="field-input-wrap">
+            <span class="field-icon">👤</span>
+            <input
+              id="fullName"
+              v-model.trim="form.fullName"
+              type="text"
+              class="field-input"
+              placeholder="Tu nombre"
+              @blur="validateFullName"
+            />
+          </div>
+          <span v-if="errors.fullName" class="field-error">{{
+            errors.fullName
+          }}</span>
+        </div>
+
         <div class="field" :class="{ 'field--error': errors.email }">
           <label for="email" class="field-label">Correo electrónico</label>
           <div class="field-input-wrap">
@@ -33,7 +46,6 @@
               type="email"
               class="field-input"
               placeholder="usuario@ejemplo.com"
-              autocomplete="email"
               @blur="validateEmail"
             />
           </div>
@@ -42,7 +54,6 @@
           }}</span>
         </div>
 
-        <!-- Campo contraseña -->
         <div class="field" :class="{ 'field--error': errors.password }">
           <label for="password" class="field-label">Contraseña</label>
           <div class="field-input-wrap">
@@ -52,17 +63,13 @@
               v-model="form.password"
               :type="showPassword ? 'text' : 'password'"
               class="field-input"
-              placeholder="••••••••"
-              autocomplete="current-password"
+              placeholder="Mínimo 6 caracteres"
               @blur="validatePassword"
             />
             <button
               type="button"
               class="field-toggle"
               @click="showPassword = !showPassword"
-              :aria-label="
-                showPassword ? 'Ocultar contraseña' : 'Ver contraseña'
-              "
             >
               {{ showPassword ? "🙈" : "👁" }}
             </button>
@@ -72,24 +79,37 @@
           }}</span>
         </div>
 
-        <!-- Botón submit -->
+        <div class="field" :class="{ 'field--error': errors.confirm }">
+          <label for="confirm" class="field-label">Confirmar contraseña</label>
+          <div class="field-input-wrap">
+            <span class="field-icon">🔑</span>
+            <input
+              id="confirm"
+              v-model="form.confirm"
+              :type="showPassword ? 'text' : 'password'"
+              class="field-input"
+              placeholder="Repite tu contraseña"
+              @blur="validateConfirm"
+            />
+          </div>
+          <span v-if="errors.confirm" class="field-error">{{
+            errors.confirm
+          }}</span>
+        </div>
+
         <button
           type="submit"
           class="btn-submit"
           :disabled="isLoading"
           :class="{ 'btn-submit--loading': isLoading }"
         >
-          <span v-if="!isLoading">Iniciar sesión →</span>
+          <span v-if="!isLoading">Crear cuenta →</span>
           <span v-else class="spinner"></span>
         </button>
-        <!-- Botón login con Google -->
-        <button type="button" class="btn-google" @click="handleGoogleLogin">
-          Continuar con Google
-        </button>
-        <!-- Link a registro -->
+
         <p class="switch-link">
-          ¿No tienes cuenta?
-          <RouterLink to="/register">Regístrate</RouterLink>
+          ¿Ya tienes cuenta?
+          <RouterLink to="/login">Inicia sesión</RouterLink>
         </p>
       </form>
     </div>
@@ -98,17 +118,21 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-import { useRouter, RouterLink } from "vue-router";
+import { useRouter } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
 
 const router = useRouter();
-const { login, authenticate, loginWithGoogle } = useAuth();
+const { register } = useAuth();
 
-const form = reactive({ email: "", password: "" });
-const errors = reactive({ email: "", password: "" });
+const form = reactive({ fullName: "", email: "", password: "", confirm: "" });
+const errors = reactive({ fullName: "", email: "", password: "", confirm: "" });
 const showPassword = ref(false);
 const isLoading = ref(false);
 const errorMsg = ref("");
+
+function validateFullName() {
+  errors.fullName = !form.fullName ? "El nombre es obligatorio." : "";
+}
 
 function validateEmail() {
   if (!form.email) errors.email = "El correo es obligatorio.";
@@ -123,46 +147,31 @@ function validatePassword() {
   else errors.password = "";
 }
 
+function validateConfirm() {
+  errors.confirm =
+    form.confirm !== form.password ? "Las contraseñas no coinciden." : "";
+}
+
 function isFormValid() {
+  validateFullName();
   validateEmail();
   validatePassword();
-  return !errors.email && !errors.password;
+  validateConfirm();
+  return (
+    !errors.fullName && !errors.email && !errors.password && !errors.confirm
+  );
 }
 
-/* async function handleLogin() {
-  errorMsg.value = ''
-  if (!isFormValid()) return
-
-  isLoading.value = true
-  try {
-    await login(form.email, form.password)
-    const redirect = router.currentRoute.value.query.redirect || '/dashboard'
-    await router.push(redirect)
-  } catch (err) {
-    errorMsg.value = 'Correo o contraseña incorrectos.'
-  } finally {
-    isLoading.value = false
-  }
-} */
-async function handleGoogleLogin() {
-  try {
-    await loginWithGoogle();
-  } catch (err) {
-    errorMsg.value = err.message;
-  }
-}
-
-async function handleLogin() {
+async function handleRegister() {
   errorMsg.value = "";
   if (!isFormValid()) return;
 
   isLoading.value = true;
   try {
-    await login(form.email, form.password);
-    const redirect = router.currentRoute.value.query.redirect || "/dashboard";
-    await router.push(redirect);
+    await register(form.email, form.password, form.fullName);
+    await router.push("/dashboard");
   } catch (err) {
-    errorMsg.value = "Correo o contraseña incorrectos.";
+    errorMsg.value = err.message;
   } finally {
     isLoading.value = false;
   }
@@ -170,7 +179,7 @@ async function handleLogin() {
 </script>
 
 <style scoped>
-/* ── PÁGINA ── */
+/* Reutiliza los mismos estilos que LoginView */
 .login-page {
   min-height: calc(100vh - 65px);
   display: flex;
@@ -206,7 +215,6 @@ async function handleLogin() {
   pointer-events: none;
 }
 
-/* ── CARD ── */
 .login-card {
   position: relative;
   width: 100%;
@@ -232,7 +240,6 @@ async function handleLogin() {
   }
 }
 
-/* ── HEADER ── */
 .card-header {
   text-align: center;
   margin-bottom: 1.75rem;
@@ -243,17 +250,6 @@ async function handleLogin() {
   font-size: 2rem;
   color: #c8a96e;
   margin-bottom: 0.75rem;
-  animation: pulse 3s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
 }
 
 .card-title {
@@ -272,7 +268,6 @@ async function handleLogin() {
   margin: 0;
 }
 
-/* ── ALERTA ── */
 .alert-error {
   background: rgba(224, 112, 112, 0.1);
   border: 1px solid rgba(224, 112, 112, 0.3);
@@ -296,7 +291,6 @@ async function handleLogin() {
   transform: translateY(-8px);
 }
 
-/* ── FORMULARIO ── */
 .login-form {
   display: flex;
   flex-direction: column;
@@ -350,16 +344,13 @@ async function handleLogin() {
 .field-input::placeholder {
   color: #3e3a36;
 }
-
 .field-input:focus {
   border-color: rgba(200, 169, 110, 0.5);
   background: rgba(200, 169, 110, 0.04);
 }
-
 .field--error .field-input {
   border-color: rgba(224, 112, 112, 0.5);
 }
-
 .field-error {
   font-size: 0.8rem;
   color: #e07070;
@@ -376,12 +367,10 @@ async function handleLogin() {
   transition: opacity 0.2s;
   padding: 0;
 }
-
 .field-toggle:hover {
   opacity: 1;
 }
 
-/* ── BOTÓN SUBMIT ── */
 .btn-submit {
   margin-top: 0.5rem;
   padding: 0.8rem;
@@ -396,20 +385,16 @@ async function handleLogin() {
   transition:
     opacity 0.2s,
     transform 0.15s;
-  letter-spacing: 0.01em;
 }
-
 .btn-submit:hover:not(:disabled) {
   opacity: 0.9;
   transform: translateY(-1px);
 }
-
 .btn-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* Spinner */
 .spinner {
   display: inline-block;
   width: 18px;
@@ -420,44 +405,24 @@ async function handleLogin() {
   animation: spin 0.7s linear infinite;
   vertical-align: middle;
 }
-
 @keyframes spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-.btn-google {
-  width: 100%;
-  padding: 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
-  color: #e8e4dc;
-  font-size: 0.9rem;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.btn-google:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* ── SWITCH LINK ── */
 .switch-link {
   text-align: center;
   font-size: 0.85rem;
   color: #5a5550;
 }
-
 .switch-link a {
   color: #c8a96e;
   text-decoration: none;
   font-weight: 600;
 }
-
 .switch-link a:hover {
   text-decoration: underline;
 }
 </style>
+-->
