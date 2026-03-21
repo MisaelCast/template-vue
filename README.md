@@ -1,38 +1,42 @@
-# rutas-protegidas
+# VueAuth — Autenticación con Vue 3 + Supabase
 
-This template should help get you started developing with Vue 3 in Vite.
+Proyecto de práctica para aprender autenticación completa con Vue 3, Vue Router y Supabase.
 
-## Recommended IDE Setup
+## Tecnologías
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vue 3 (Composition API)
+- Vue Router 4
+- Supabase (auth con email/password y Google OAuth)
+- Pinia
+- Vite
 
-## Recommended Browser Setup
+## Funcionalidades
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- Login con email y contraseña
+- Login con Google
+- Registro de usuarios
+- Rutas protegidas con Navigation Guards
+- Cierre de sesión
+- Persistencia de sesión
 
-## Customize configuration
+## Instalación
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Crea un archivo `.env` en la raíz con tus credenciales de Supabase:
 
-```sh
+```
+VITE_SUPABASE_URL=tu_url
+VITE_SUPABASE_ANON_KEY=tu_anon_key
+```
+
+```bash
 npm run dev
 ```
 
-### Compile and Minify for Production
+## Créditos
 
-```sh
-npm run build
-```
+- Diseño y template original por [Xenia](https://github.com/xenyens)
+- Implementación de autenticación con Supabase por [Misael Castillo](https://github.com/MisaelCast)
