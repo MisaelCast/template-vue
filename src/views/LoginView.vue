@@ -100,6 +100,7 @@
 import { ref, reactive } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
+import { ref, reactive, watch } from "vue";
 
 const router = useRouter();
 const { login, authenticate, loginWithGoogle } = useAuth();
@@ -167,6 +168,10 @@ async function handleLogin() {
     isLoading.value = false;
   }
 }
+
+watch(isAuthenticated, (val) => {
+  if (val) router.push("/dashboard");
+});
 </script>
 
 <style scoped>
