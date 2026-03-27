@@ -9,6 +9,8 @@ const DashboardView = () => import("@/views/DashboardView.vue");
 const NotFoundView = () => import("@/views/NotFoundView.vue");
 const RegisterView = () => import("@/views/RegisterView.vue");
 
+const { isAdmin } = useAuth();
+
 const routes = [
   {
     path: "/",
@@ -29,15 +31,7 @@ const routes = [
       guestOnly: true, // Si ya estás autenticado, te redirige al dashboard
     },
   },
-  /*   {
-    path: "/register",
-    name: "register",
-    component: () => import("@/views/RegisterView.vue"),
-    meta: {
-      title: "Crear cuenta",
-      requiresAuth: false,
-      guestOnly: true,
-    }, */
+
   {
     path: "/register",
     name: "register",
@@ -56,6 +50,12 @@ const routes = [
       title: "Confirma tu correo",
       requiresAuth: false,
     },
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    component: () => import("@/views/AdminView.vue"),
+    meta: { title: "Admin", requiresAuth: true, requiresAdmin: true },
   },
   {
     path: "/dashboard",
@@ -105,6 +105,11 @@ router.beforeEach(async (to, from) => {
   // 3. Ruta guestOnly + usuario YA autenticado → redirige a /dashboard
   if (to.meta.guestOnly && isAuthenticated.value) {
     return { name: "dashboard" };
+  }
+
+  // 4. Ruta adminOnly + usuario NO admin → redirige a /home
+  if (to.meta.requiresAdmin && !isAdmin.value) {
+    return { name: "home" };
   }
 
   // 4. Todo bien, permite la navegación

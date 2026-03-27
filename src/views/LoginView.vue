@@ -97,13 +97,13 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, watch } from "vue";
 import { useRouter, RouterLink } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
-import { ref, reactive, watch } from "vue";
 
 const router = useRouter();
-const { login, authenticate, loginWithGoogle } = useAuth();
+//se importa el composable de autenticación para manejar el login, el estado de autenticación y el usuario
+const { login, loginWithGoogle, isAuthenticated } = useAuth();
 
 const form = reactive({ email: "", password: "" });
 const errors = reactive({ email: "", password: "" });

@@ -12,6 +12,10 @@
 
       <div class="nav-links">
         <RouterLink to="/" class="nav-link">Inicio</RouterLink>
+        <!-- Solo muestra el enlace de admin si el usuario tiene rol admin -->
+        <RouterLink v-if="isAdmin" to="/admin" class="nav-link">
+          Admin
+        </RouterLink>
 
         <!-- Si NO está autenticado -->
         <template v-if="!isAuthenticated">
@@ -47,7 +51,7 @@ import { RouterLink, RouterView, useRouter } from "vue-router";
 import { useAuth } from "@/composables/useAuth";
 
 const router = useRouter();
-const { isAuthenticated, user, logout } = useAuth();
+const { isAuthenticated, user, logout, isAdmin } = useAuth();
 
 async function handleLogout() {
   logout();
