@@ -71,6 +71,17 @@
             errors.password
           }}</span>
         </div>
+        <div
+          class="forgot-link-wrap"
+          style="text-align: right; margin-top: -0.5rem; margin-bottom: 0.5rem"
+        >
+          <RouterLink
+            to="/forgot-password"
+            style="font-size: 0.8rem; color: #c8a96e; text-decoration: none"
+          >
+            ¿Olvidaste tu contraseña?
+          </RouterLink>
+        </div>
 
         <!-- Botón submit -->
         <button

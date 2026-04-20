@@ -29,7 +29,7 @@ async function init() {
     _user.value = session?.user ?? null;
 
     if (_user.value) {
-      await fetchRole(_user.value.id);
+      fetchRole(_user.value.id);
     } else {
       _role.value = null;
     }
@@ -81,6 +81,21 @@ export function useAuth() {
     if (error) throw error;
   }
 
+  // Enviar el correo de recuperación
+  async function sendPasswordReset(email) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      // Redirige a esta URL cuando el usuario haga clic en el correo
+      redirectTo: window.location.origin + "/reset-password",
+    });
+    if (error) throw error;
+  }
+
+  // Actualizar la contraseña (se usa cuando el usuario ya regresó del correo)
+  async function updatePassword(newPassword) {
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+  }
+
   return {
     user,
     isAuthenticated,
@@ -92,6 +107,8 @@ export function useAuth() {
     logout,
     init,
     loginWithGoogle,
+    sendPasswordReset,
+    updatePassword,
   };
 }
 

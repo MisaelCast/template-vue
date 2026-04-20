@@ -1,7 +1,5 @@
-<!-- App.vue -->
 <template>
   <div id="app">
-    <!-- NAVBAR -->
     <nav class="navbar">
       <div class="nav-brand">
         <RouterLink to="/" class="brand-link">
@@ -12,19 +10,21 @@
 
       <div class="nav-links">
         <RouterLink to="/" class="nav-link">Inicio</RouterLink>
-        <!-- Solo muestra el enlace de admin si el usuario tiene rol admin -->
-        <RouterLink v-if="isAdmin" to="/admin" class="nav-link">
+
+        <RouterLink
+          v-if="isAdmin && $route.name !== 'reset-password'"
+          to="/admin"
+          class="nav-link"
+        >
           Admin
         </RouterLink>
 
-        <!-- Si NO está autenticado -->
-        <template v-if="!isAuthenticated">
+        <template v-if="!isAuthenticated || $route.name === 'reset-password'">
           <RouterLink to="/login" class="nav-link nav-link--cta">
             Iniciar sesión
           </RouterLink>
         </template>
 
-        <!-- Si SÍ está autenticado -->
         <template v-else>
           <RouterLink to="/dashboard" class="nav-link">Dashboard</RouterLink>
           <span class="nav-user">{{ user?.user_metadata?.full_name }}</span>
@@ -35,7 +35,6 @@
       </div>
     </nav>
 
-    <!-- CONTENIDO PRINCIPAL -->
     <main class="main-content">
       <RouterView v-slot="{ Component }">
         <Transition name="page" mode="out-in">
