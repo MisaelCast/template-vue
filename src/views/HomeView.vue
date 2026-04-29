@@ -245,6 +245,7 @@ const flowSteps = [
 /* Contenido hero */
 .hero-content {
   position: relative;
+  padding: 1rem;
   z-index: 1;
   display: flex;
   flex-direction: column;

@@ -207,8 +207,7 @@ async function handleUpdatePassword() {
     try {
       await logout();
     } catch (logoutErr) {
-      // Si falla el logout (a veces pasa porque Supabase te cierra la sesión
-      // automáticamente al cambiar la contraseña), lo ignoramos y seguimos.
+      // Si falla el logout
       console.warn("Aviso al cerrar sesión:", logoutErr.message);
     }
 
